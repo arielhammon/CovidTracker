@@ -1,0 +1,85 @@
+﻿@using CovidTracker.Models
+@using CovidTracker.ApiInterface.Logic
+@model List<StateDayLineItem>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome to CovidTracker</h1>
+</div>
+
+
+
+ <div class="form-group">
+    <label class="control-label col-md-2">Filter by Date</label>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-2">
+            @Html.DropDownList("ReportDates", null, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Update"/>
+        </div>
+    }
+    
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-sm-2">
+                Date
+            </th>
+            <th class="col-sm-1">
+                State
+            </th>
+            <th class="col-sm-2" style="text-align: right">
+                Positive Cases
+            </th>
+            <th class="col-sm-2" style="text-align: right">
+                Negative Cases
+            </th>
+            <th class="col-sm-2" style="text-align: right">
+                Total Cases
+            </th>
+            <th class="col-sm-2" style="text-align: right">
+                Hospitalized Currently
+            </th>
+            <th class="col-sm-2" style="text-align: right">
+                Hospitalized Total
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Date.ToString("M-d-yyyy")
+                    </td>
+                    <td>
+                        @item.State
+                    </td>
+                    <td class="" style="text-align: right">
+                        @item.Positive.ToNumberFormat()
+                    </td>
+                    <td class="" style="text-align: right">
+                        @item.Negative.ToNumberFormat()
+                    </td>
+                    <td class="" style="text-align: right">
+                        @item.TotalTestResults.ToNumberFormat()
+                    </td>
+                    <td class="" style="text-align: right">
+                        @item.HospitalizedCurrently.ToNumberFormat()
+                    </td>
+                    <td class="" style="text-align: right">
+                        @item.HospitalizedCumulative.ToNumberFormat()
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
